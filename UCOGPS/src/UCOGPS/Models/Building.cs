@@ -9,9 +9,9 @@ namespace UCOGPS.Models
    public class Building
    {
       [Key]
-      public int BuildingId { get; set; }
+      public int Buildingid { get; set; }
       public string Name { get; set; }
-      public string Latitude { get; set; }
-      public int Longitude { get; set; }
+      public double Latitude { get; set; }
+      public double Longitude { get; set; }
    }
 }

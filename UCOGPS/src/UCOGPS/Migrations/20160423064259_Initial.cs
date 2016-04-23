@@ -10,6 +10,20 @@ namespace UCOGPS.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Building",
+                columns: table => new
+                {
+                    Buildingid = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Latitude = table.Column<double>(nullable: false),
+                    Longitude = table.Column<double>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Building", x => x.Buildingid);
+                });
+            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
@@ -28,6 +42,7 @@ namespace UCOGPS.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable("Building");
             migrationBuilder.DropTable("User");
         }
     }

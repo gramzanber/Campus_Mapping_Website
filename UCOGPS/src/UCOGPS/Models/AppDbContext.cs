@@ -17,5 +17,6 @@ namespace UCOGPS.Models
         }
 
         public DbSet<User> User { get; set; }
+        public DbSet<Building> Building { get; set; }
     }
 }

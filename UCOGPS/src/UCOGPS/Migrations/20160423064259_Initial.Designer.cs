@@ -8,7 +8,7 @@ using UCOGPS.Models;
 namespace UCOGPS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20160419180911_Initial")]
+    [Migration("20160423064259_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,6 +16,20 @@ namespace UCOGPS.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("UCOGPS.Models.Building", b =>
+                {
+                    b.Property<int>("Buildingid")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Buildingid");
+                });
 
             modelBuilder.Entity("UCOGPS.Models.User", b =>
                 {
