@@ -174,13 +174,14 @@
             var start = document.getElementById('startingDestination').value.split(",");
             var stop = document.getElementById('endingDestination').value.split(",");
 
-	         var chicago = { lat: parseFloat(start[0]), lng: parseFloat(start[1]) };
-	         var indianapolis = { lat: parseFloat(stop[0]), lng: parseFloat(stop[1]) };
+	         var startDestination = { lat: parseFloat(start[0]), lng: parseFloat(start[1]) };
+	         var endDestination = { lat: parseFloat(stop[0]), lng: parseFloat(stop[1]) };
 
 	         var map = new google.maps.Map(document.getElementById('map'), {
-	             center: chicago,
+	             center: startDestination,
 	             scrollwheel: false,
-	             zoom: 17
+	             zoom: 17,
+	             mapTypeId: google.maps.MapTypeId.SATELLITE
 	         });
 
 	         var directionsDisplay = new google.maps.DirectionsRenderer({
@@ -189,8 +190,8 @@
 
 	         // Set destination, origin and travel mode.
 	         var request = {
-	             destination: indianapolis,
-	             origin: chicago,
+	             destination: endDestination,
+	             origin: startDestination,
 	             travelMode: google.maps.TravelMode.WALKING
 	         };
 
