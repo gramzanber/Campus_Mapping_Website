@@ -19,7 +19,13 @@ namespace UCOGPS.Controllers
         [Route("CampusMAP")]
         public IActionResult CampusMap()
         {
-            return View();
+            return View(_context.Building.ToList());
+        }
+
+        [HttpPost]
+        public IActionResult getDirections()
+        {
+            return RedirectToAction("CampusMap");
         }
 
         public IActionResult fromLocation(string buildingName)
@@ -38,7 +44,8 @@ namespace UCOGPS.Controllers
 
             if (building != null)
                 return Json(new { lat = building.Latitude, lng = building.Longitude });
-            else
+                
+            //else
                 //notify user of invalid startBuilding
                 return HttpNotFound(building);
         }

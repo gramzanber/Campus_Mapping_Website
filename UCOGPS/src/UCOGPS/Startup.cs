@@ -43,6 +43,7 @@ namespace UCOGPS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
+            app.UseDeveloperExceptionPage();
             //MUST ADD TO BAREBONES PROJECT as well as "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final" dependency in project.json
             app.UseStaticFiles();
 

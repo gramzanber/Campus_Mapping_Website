@@ -1,4 +1,5 @@
-﻿@{ ViewBag.Title = "CampusMap";}
+﻿@model IEnumerable<UCOGPS.Models.Building>
+@{ ViewBag.Title = "CampusMap";}
 <!--Test with url/CampusMap-->
 <head>
 	<style>
@@ -50,6 +51,7 @@
 	<style type="text/css">
 	   body {
 	   background: #474747 url(bg.png);
+       color:white;
 	   }
 	   rare {
 	   font: 70px Tahoma, Helvetica, Arial, Sans-Serif;
@@ -138,66 +140,77 @@
 	   .container-4:hover button.icon:hover{
 	   background: white;
 	   }
+       #map
+       {
+           max-width:800px;
+       }
+       form
+       {
+           text-align:center;
+       }
 	</style>
 	<title></title>
 </head>
 	<center><rare>Map Project</rare></center><br>
-	<form>
-		<input class="controls" id="pac-input" placeholder="Search Box" type="text">
-	</form>
+    @using (Html.BeginForm("getDirections","MappingSystem", FormMethod.Post))
+    {
+        <span>Starting Destination:</span>
+        <select name="startingDestination" id="startingDestination">
+            @foreach (var building in Model)
+            {
+                <option value="@Html.DisplayFor(modelItem => building.Name)">@Html.DisplayFor(modelItem => building.Name)</option>
+            }
+        </select>
+
+        <span>Ending Destination:</span>
+        <select name="endingDestination" id="endingDestination">
+            @foreach (var building in Model)
+            {
+                <option value="@Html.DisplayFor(modelItem => building.Name)">@Html.DisplayFor(modelItem => building.Name)</option>
+            }
+        </select>
+        <input type="submit" value="Find Directions"/>
+    }
+    <br>
+    <br>
+
 	<div id="map"></div>
 
 	<script type="text/javascript">
-	     function initAutocomplete() {
-	       var map = new google.maps.Map(document.getElementById('map'), {
-	         center: {lat: 35.657477, lng:  -97.471860},
-	         zoom: 17,
-	         mapTypeId: google.maps.MapTypeId.ROADMAP
-	       });
-	       var input = document.getElementById('pac-input');
-	       var searchBox = new google.maps.places.SearchBox(input);
-	       map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-	       map.addListener('bounds_changed', function() {
-	         searchBox.setBounds(map.getBounds());
-	       });
-	       var markers = [];
-	       searchBox.addListener('places_changed', function() {
-	         var places = searchBox.getPlaces();
-	         if (places.length == 0) {
-	           return;
-	         }
-	         markers.forEach(function(marker) {
-	           marker.setMap(null);
+	     function initMap() {
+	         var chicago = { lat: 41.85, lng: -87.65 };
+	         var indianapolis = { lat: 39.79, lng: -86.14 };
+
+	         var map = new google.maps.Map(document.getElementById('map'), {
+	             center: chicago,
+	             scrollwheel: false,
+	             zoom: 15
 	         });
-	         markers = [];
-	         var bounds = new google.maps.LatLngBounds();
-	         places.forEach(function(place) {
-	           var icon = {
-	             url: place.icon,
-	             size: new google.maps.Size(71, 71),
-	             origin: new google.maps.Point(0, 0),
-	             anchor: new google.maps.Point(17, 34),
-	             scaledSize: new google.maps.Size(25, 25)
-	           };
-	           markers.push(new google.maps.Marker({
-	             map: map,
-	             icon: icon,
-	             title: place.name,
-	             position: place.geometry.location
-	           }));
-	           if (place.geometry.viewport) {
-	             // Only geocodes have viewport.
-	             bounds.union(place.geometry.viewport);
-	           } else {
-	             bounds.extend(place.geometry.location);
-	           }
+
+	         var directionsDisplay = new google.maps.DirectionsRenderer({
+	             map: map
 	         });
-	         map.fitBounds(bounds);
-	       });
+
+	         // Set destination, origin and travel mode.
+	         var request = {
+	             destination: indianapolis,
+	             origin: chicago,
+	             travelMode: google.maps.TravelMode.WALKING
+	         };
+
+	         // Pass the directions request to the directions service.
+	         var directionsService = new google.maps.DirectionsService();
+	         directionsService.route(request, function (response, status) {
+	             if (status == google.maps.DirectionsStatus.OK) {
+	                 // Display the route on the map.
+	                 directionsDisplay.setDirections(response);
+	             }
+	         });
 	     }
+
 	</script> 
 	<script async defer src=
-	"https://maps.googleapis.com/maps/api/js?key=AIzaSyDq_Vm89eRFDfYFYbWI8bPtr1gLSZqEcnE&libraries=places&callback=initAutocomplete">
+	"https://maps.googleapis.com/maps/api/js?key=AIzaSyC8DueHDvr0uhFQKw4cQW3aAIlhDh9B1Zc&libraries=places&callback=initMap">
 	</script><br>
 	<center>
 		<button class="button">Login</button> <button class=
