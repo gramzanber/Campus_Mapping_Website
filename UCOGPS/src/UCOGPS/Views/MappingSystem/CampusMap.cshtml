@@ -52,6 +52,7 @@
 	   body {
 	   background: #474747 url(bg.png);
        color:white;
+       text-align:center;
 	   }
 	   rare {
 	   font: 70px Tahoma, Helvetica, Arial, Sans-Serif;
@@ -144,18 +145,12 @@
        {
            max-width:800px;
        }
-       form
-       {
-           text-align:center;
-       }
 	</style>
 	<title></title>
 </head>
 	<center><rare>Map Project</rare></center><br>
-    @using (Html.BeginForm("getDirections","MappingSystem", FormMethod.Post))
-    {
         <span>Starting Destination:</span>
-        <select name="startingDestination" id="startingDestination">
+        <select name="startingDestination" id="startingDestination" onchange="initMap()">
             @foreach (var building in Model)
             {
                 <option value="@Html.DisplayFor(modelItem => building.Latitude),@Html.DisplayFor(modelItem => building.Longitude)">@Html.DisplayFor(modelItem => building.Name)</option>
@@ -163,14 +158,12 @@
         </select>
 
         <span>Ending Destination:</span>
-        <select name="endingDestination" id="endingDestination">
+        <select name="endingDestination" id="endingDestination" onchange="initMap()">
             @foreach (var building in Model)
             {
                 <option value="@Html.DisplayFor(modelItem => building.Latitude),@Html.DisplayFor(modelItem => building.Longitude)">@Html.DisplayFor(modelItem => building.Name)</option>
             }
         </select>
-        <input type="submit" value="Find Directions"/>
-    }
     <br>
     <br>
 

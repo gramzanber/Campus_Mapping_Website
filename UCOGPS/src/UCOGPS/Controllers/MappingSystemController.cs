@@ -16,6 +16,7 @@ namespace UCOGPS.Controllers
             _context = context;
         }
 
+        [HttpGet]
         [Route("CampusMAP")]
         public IActionResult CampusMap()
         {
@@ -23,6 +24,12 @@ namespace UCOGPS.Controllers
         }
 
         [HttpPost]
+        [Route("CampusMAP")]
+        public IActionResult CampusMap(string data, string data2)
+        {
+            return View(_context.Building.ToList());
+        }
+
         public IActionResult getDirections()
         {
             return RedirectToAction("CampusMap");
