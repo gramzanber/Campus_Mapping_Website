@@ -143,8 +143,16 @@
 	   }
        #map
        {
-           max-width:800px;
+           max-width:60%;
        }
+       #right-panel
+       {
+           float:right;
+           margin-right:100px;
+           max-width:20%;
+           background-color:white;
+       }
+
 	</style>
 	<title></title>
 </head>
@@ -166,7 +174,7 @@
         </select>
     <br>
     <br>
-
+    <div id="right-panel"></div>
 	<div id="map"></div>
 
 	<script type="text/javascript">
@@ -184,9 +192,13 @@
 	             mapTypeId: google.maps.MapTypeId.SATELLITE
 	         });
 
+            //clear current direction display
+	         document.getElementById('right-panel').innerHTML = "";
+
 	         var directionsDisplay = new google.maps.DirectionsRenderer({
 	             map: map
-	         });
+                 });
+	         directionsDisplay.setPanel(document.getElementById('right-panel'));
 
 	         // Set destination, origin and travel mode.
 	         var request = {
