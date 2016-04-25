@@ -35,6 +35,8 @@ namespace UCOGPS.Controllers
 
                 if(newUser == null)
                 {
+                    user.LastDestinationBuilding = 1;
+                    user.LastStartingBuilding = 1;
                     _context.Add(user);
                     _context.SaveChanges();
                 }
@@ -64,8 +66,8 @@ namespace UCOGPS.Controllers
                 if(currentUser != null)
                 {
                     HttpContext.Session.SetString("Username", currentUser.Username.ToString());
+                    return RedirectToAction("CampusMap", "MappingSystem");
                 }
-                return RedirectToAction("Index", "Home");
             }
             return View();
         }

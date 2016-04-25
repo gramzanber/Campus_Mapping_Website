@@ -23,38 +23,28 @@ namespace UCOGPS.Controllers
             return View(_context.Building.ToList());
         }
 
+        [HttpGet]
+        [Route("AddBuilding")]
+        public IActionResult AddBuilding()
+        {
+            return View();
+        }
+
         [HttpPost]
-        [Route("CampusMAP")]
-        public IActionResult CampusMap(string data, string data2)
+        [Route("AddBuilding")]
+        public IActionResult AddBuilding(Building newBuilding)
         {
-            return View(_context.Building.ToList());
-        }
+            if(ModelState.IsValid)
+            {
+                var currentBuilding = _context.Building.Where(model => model.Name.Equals(newBuilding.Name)).FirstOrDefault();
 
-        public IActionResult getDirections()
-        {
+                if (currentBuilding == null)
+                {
+                    _context.Building.Add(newBuilding);
+                    _context.SaveChanges();
+                }
+            }
             return RedirectToAction("CampusMap");
-        }
-
-        public IActionResult fromLocation(string buildingName)
-        {
-            return getLocation(buildingName);
-        } 
-
-        public IActionResult toLocation(string buildingName)
-        {
-            return getLocation(buildingName);
-        }
-
-        public IActionResult getLocation(string buildingName)
-        {
-            var building = _context.Building.Where(model => model.Name.Equals(buildingName)).FirstOrDefault();
-
-            if (building != null)
-                return Json(new { lat = building.Latitude, lng = building.Longitude });
-                
-            //else
-                //notify user of invalid startBuilding
-                return HttpNotFound(building);
         }
     }
 }
