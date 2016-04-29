@@ -66,6 +66,8 @@ namespace UCOGPS.Controllers
                 if(currentUser != null)
                 {
                     HttpContext.Session.SetString("Username", currentUser.Username.ToString());
+                    ObserverModel observer = new ObserverModel();
+                    HttpContext.Session.SetString("Observer", "");
                     return RedirectToAction("CampusMap", "MappingSystem");
                 }
             }

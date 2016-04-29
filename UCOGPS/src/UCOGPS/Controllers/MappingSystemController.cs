@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using UCOGPS.Models;
+using Microsoft.AspNet.Http;
 
 namespace UCOGPS.Controllers
 {
     public class MappingSystemController : Controller
     {
+        private ObserverModel observer;
         private AppDbContext _context;
 
         public MappingSystemController(AppDbContext context)
@@ -40,6 +42,10 @@ namespace UCOGPS.Controllers
 
                 if (currentBuilding == null)
                 {
+                    observer = new ObserverModel();
+                    observer.addHistory(newBuilding.Latitude, newBuilding.Longitude);
+                    HttpContext.Session.SetString("Observer", observer.ToString());
+                    observer.addHistory(newBuilding.Latitude, newBuilding.Longitude);
                     _context.Building.Add(newBuilding);
                     _context.SaveChanges();
                 }
