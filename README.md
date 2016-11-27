@@ -9,3 +9,17 @@ Time allocated throughout the semester as follows:
 3/4 planning, UML documentation, and continuous discussion
 
 1/4 implementation
+
+Team Members
+
+Programmer
+Tyrel Tachibana - https://github.com/gramzanber
+
+Documentation Expert
+Pei-Hsin(Maggie) Chang - https://github.com/maggie791011
+
+Database Administrator
+Micah McKinnon - https://github.com/micmac405
+
+Programmer
+Drew Demechko - https://github.com/drewdemechko
