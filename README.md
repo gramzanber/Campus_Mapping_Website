@@ -13,13 +13,17 @@ Time allocated throughout the semester as follows:
 Team Members
 
 Programmer
+
 Tyrel Tachibana - https://github.com/gramzanber
 
 Documentation Expert
+
 Pei-Hsin(Maggie) Chang - https://github.com/maggie791011
 
 Database Administrator
+
 Micah McKinnon - https://github.com/micmac405
 
 Programmer
+
 Drew Demechko - https://github.com/drewdemechko
