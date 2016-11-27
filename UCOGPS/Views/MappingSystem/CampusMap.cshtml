@@ -1,0 +1,228 @@
+﻿@model IEnumerable<UCOGPS.Models.Building>
+@{ ViewBag.Title = "CampusMap";}
+<!--Test with url/CampusMap-->
+<head>
+	<style>
+	     #map {
+	           width: 1500px;
+	           height: 500px;
+	       margin: auto;
+	     }
+	     .controls {
+	       margin-top: 10px;
+	       border: 1px solid transparent;
+	       border-radius: 2px 0 0 2px;
+	       box-sizing: border-box;
+	       -moz-box-sizing: border-box;
+	       height: 32px;
+	       outline: none;
+	       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	     }
+	     #pac-input {
+	       background-color: #fff;
+	       font-family: Roboto;
+	       font-size: 15px;
+	       font-weight: 300;
+	       margin-left: 12px;
+	       padding: 0 11px 0 13px;
+	       text-overflow: ellipsis;
+	       width: 300px;
+	     }
+	     #pac-input:focus {
+	       border-color: #4d90fe;
+	     }
+	     .pac-container {
+	       font-family: Roboto;
+	     }
+	     #type-selector {
+	       color: #fff;
+	       background-color: #4d90fe;
+	       padding: 5px 11px 0px 11px;
+	     }
+	     #type-selector label {
+	       font-family: Roboto;
+	       font-size: 13px;
+	       font-weight: 300;
+	     }
+	     #target {
+	       width: 345px;
+	     }
+	</style>
+	<style type="text/css">
+	   body {
+	   background: #474747 url(bg.png);
+       color:white;
+       text-align:center;
+	   }
+	   rare {
+	   font: 70px Tahoma, Helvetica, Arial, Sans-Serif;
+	   text-align: center;
+	   color: #fff; text-shadow: 0px 2px 3px #555;
+	   }
+	   pre {
+	   width: 600px; margin: 0 auto; background: #222; padding: 10px;
+	   font-size: 22px; color: #555; text-shadow: 0px 2px 3px #171717;
+	   -webkit-box-shadow: 0px 2px 3px #555;
+	   -moz-box-shadow: 0px 2px 3px #555;
+	   -webkit-border-radius: 10px;
+	   -moz-border-radius: 10px;
+	   }
+	   .button {
+	   background-color: #474747; 
+	   border: 1px solid black;
+	   color: white;
+	   padding: 15px 32px;
+	   text-align: center;
+	   text-decoration: none;
+	   display: inline-block;
+	   font-size: 16px;
+	   cursor: pointer;
+	   transition-duration: 0.5s;
+	   }
+	   .button:hover {
+	   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+	   }
+	   .container-4{
+	   overflow: hidden;
+	   width: 300px;
+	   vertical-align: middle;
+	   white-space: nowrap;
+	   }
+	   .container-4 input#search{
+	   width: 300px;
+	   height: 50px;
+	   background: #6b6b6b;
+	   border: none;
+	   font-size: 10pt;
+	   float: left;
+	   color: #fff;
+	   padding-left: 15px;
+	   -webkit-border-radius: 5px;
+	   -moz-border-radius: 5px;
+	   border-radius: 5px;
+	   }
+	   .container-4 input#search::-webkit-input-placeholder {
+	   color: #ffffff;
+	   }
+	   .container-4 input#search:-moz-placeholder { /* Firefox 18- */
+	   color: #ffffff;  
+	   }
+	   .container-4 input#search::-moz-placeholder {  /* Firefox 19+ */
+	   color: #ffffff;  
+	   }
+	   .container-4 input#search:-ms-input-placeholder {  
+	   color: #ffffff;  
+	   }
+	   .container-4 button.icon{
+	   -webkit-border-top-right-radius: 5px;
+	   -webkit-border-bottom-right-radius: 5px;
+	   -moz-border-radius-topright: 5px;
+	   -moz-border-radius-bottomright: 5px;
+	   border-top-right-radius: 5px;
+	   border-bottom-right-radius: 5px;
+	   border: none;
+	   background: #2E2E2E;
+	   height: 50px;
+	   width: 50px;
+	   color: #4f5b66;
+	   opacity: 0;
+	   font-size: 10pt;
+	   -webkit-transition: all .55s ease;
+	   -moz-transition: all .55s ease;
+	   -ms-transition: all .55s ease;
+	   -o-transition: all .55s ease;
+	   transition: all .55s ease;
+	   }
+	   .container-4:hover button.icon, .container-4:active button.icon, .container-4:focus button.icon{
+	   outline: none;
+	   opacity: 1;
+	   margin-left: -50px;
+	   }
+	   .container-4:hover button.icon:hover{
+	   background: white;
+	   }
+       #map
+       {
+           max-width:60%;
+       }
+       #right-panel
+       {
+           float:right;
+           margin-right:100px;
+           max-width:20%;
+           background-color:white;
+       }
+
+	</style>
+	<title></title>
+</head>
+        <span>Starting Destination:</span>
+        <select name="startingDestination" id="startingDestination" onchange="initMap()">
+            @foreach (var building in Model)
+            {
+                <option value="@Html.DisplayFor(modelItem => building.Latitude),@Html.DisplayFor(modelItem => building.Longitude)">@Html.DisplayFor(modelItem => building.Name)</option>
+            }
+        </select>
+
+        <span>Ending Destination:</span>
+        <select name="endingDestination" id="endingDestination" onchange="initMap()">
+            @foreach (var building in Model)
+            {
+                <option value="@Html.DisplayFor(modelItem => building.Latitude),@Html.DisplayFor(modelItem => building.Longitude)">@Html.DisplayFor(modelItem => building.Name)</option>
+            }
+        </select>
+    <br>
+    <br>
+    <div id="right-panel"></div>
+	<div id="map"></div>
+
+	<script type="text/javascript">
+        function initMap() {
+            var start = document.getElementById('startingDestination').value.split(",");
+            var stop = document.getElementById('endingDestination').value.split(",");
+
+	         var startDestination = { lat: parseFloat(start[0]), lng: parseFloat(start[1]) };
+	         var endDestination = { lat: parseFloat(stop[0]), lng: parseFloat(stop[1]) };
+
+	         var map = new google.maps.Map(document.getElementById('map'), {
+	             center: startDestination,
+	             scrollwheel: false,
+	             zoom: 17,
+	             mapTypeId: google.maps.MapTypeId.SATELLITE
+	         });
+
+            //clear current direction display
+	         document.getElementById('right-panel').innerHTML = "";
+
+	         var directionsDisplay = new google.maps.DirectionsRenderer({
+	             map: map
+                 });
+	         directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+	         // Set destination, origin and travel mode.
+	         var request = {
+	             destination: endDestination,
+	             origin: startDestination,
+	             travelMode: google.maps.TravelMode.WALKING
+	         };
+
+	         // Pass the directions request to the directions service.
+	         var directionsService = new google.maps.DirectionsService();
+	         directionsService.route(request, function (response, status) {
+	             if (status == google.maps.DirectionsStatus.OK) {
+	                 // Display the route on the map.
+	                 directionsDisplay.setDirections(response);
+	             }
+	         });
+	     }
+
+	</script> 
+	<script async defer src=
+	"https://maps.googleapis.com/maps/api/js?key=AIzaSyC8DueHDvr0uhFQKw4cQW3aAIlhDh9B1Zc&libraries=places&callback=initMap">
+	</script><br>
+<br>
+<footer>
+            <center><a href="#" class="footer-logo">
+            </a>
+            <p style="color:white"><font face="verdana">Software Engineering I Map Project with Dr. Fu<br>Frontend: Jeff Kim, Maggie Chang<br>Backend: Drew Demechko, Micah McKinnon, Tyrel Tachibana</font></p></center>
+</footer>
