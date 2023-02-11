@@ -20,4 +20,4 @@ Micah McKinnon - Database Administrator - https://github.com/micmac405
 
 Drew Demechko - Programmer - https://github.com/drewdemechko
 
-Jeff Kim - Programmer/UI Expert - https://github.com/jeffkangkim
+Jeff Kim - Programmer/UI Expert - Redacted
